@@ -1,0 +1,43 @@
+package components
+import "gotodo/internal/todo"
+
+templ Todo(todo *todo.Todo) {
+  <form id={todo.Id} class="todo" style="display:flex;align-items: center; gap:1rem">
+    if todo.Editing {
+    <input class="border" value={todo.Title} name="todotitle" type="text"/>
+    } else {
+      <p if todo.Completed {
+        style="text-decoration:line-through"
+      }>{todo.Title}</p>
+    }
+    <button
+      hx-target="closest form" 
+      hx-trigger="click" 
+      hx-swap="outerHTML"
+      hx-patch={"/edit-todo/"+todo.Id} 
+      style="height:32px" type="submit">✏️</button>
+    <button
+      hx-target="closest form" 
+      hx-trigger="click" 
+      hx-swap="outerHTML"
+      hx-patch={"/done-todo/"+todo.Id}  style="height:32px">👌</button>
+    <button 
+      hx-target="closest form" 
+      hx-trigger="click" 
+      hx-swap="outerHTML"
+      hx-delete={"/todo/"+todo.Id} style="height:32px" >🚮</button>
+  </form>
+}
+
+
+templ AddTodo() {
+  <form>
+    <input type="text" name="newtodo" />
+    <button
+      hx-trigger="click"
+      hx-post="/todo"
+      hx-target="#todos"
+      hx-swap="beforeend" type="submit">Add todo</button>
+  </form>
+  
+}

@@ -1,0 +1,20 @@
+package web
+
+import "gotodo/cmd/web/components"
+import "gotodo/internal/todo"
+
+
+templ HelloForm(todos map[string]*todo.Todo) {
+	@Base() {
+	<div id="todos">
+		for _, todo := range todos {
+			@components.Todo(todo)
+		}
+	</div>
+	@components.AddTodo()
+	}
+}
+
+templ HelloPost(name string) {
+	<div>Hello, { name }</div>
+}
